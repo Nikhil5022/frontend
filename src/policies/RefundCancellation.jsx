@@ -13,7 +13,7 @@ const CancellationAndRefundPolicyPage = () => {
     <div className="max-w-3xl mx-auto py-8 px-4">
       <h1 className="text-3xl text-center font-bold mb-4">Cancellation and Refund Policy</h1>
       <p className="text-lg leading-relaxed mb-4">
-        At LearnDuke, we strive to provide our customers with high-quality services and a seamless experience. However, we understand that there may be circumstances where you may need to cancel your subscription or request a refund. This policy outlines the conditions under which cancellations and refunds will be considered.
+        At Prework, we strive to provide our customers with high-quality services and a seamless experience. However, we understand that there may be circumstances where you may need to cancel your subscription or request a refund. This policy outlines the conditions under which cancellations and refunds will be considered.
       </p>
 
       <h2 className="text-2xl font-bold mt-8 mb-4">1. Subscription Cancellations</h2>
@@ -57,7 +57,7 @@ const CancellationAndRefundPolicyPage = () => {
       <h2 className="text-2xl font-bold mt-8 mb-4">6. Contact Us</h2>
       <p className="text-lg leading-relaxed mb-4">
         If you have any questions or concerns about our cancellation and refund policy, please contact us at
-        LearnDuke
+        Prework
         <br />
         Email: <span className='font-semibold'>
              ycyclasscom@gmail.com.

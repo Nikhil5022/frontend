@@ -14,7 +14,7 @@ const PrivacyPolicy = () => {
     <div className="max-w-3xl mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-4 text-center">Privacy Policy</h1>
       <p className="text-lg text-justify mb-4">
-        Welcome to LearnDuke. Your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, including forms, mobile website, or mobile application. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
+        Welcome to Prework. Your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, including forms, mobile website, or mobile application. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
       </p>
       
       <h2 className="text-2xl font-bold mt-8 mb-4">1. Information We Collect</h2>
@@ -60,7 +60,7 @@ const PrivacyPolicy = () => {
       <h2 className="text-2xl font-bold mt-8 mb-4">6. Contact Us</h2>
       <p className="text-lg leading-relaxed mb-4">
         If you have questions or comments about this Privacy Policy, please contact us at
-        LearnDuke
+        Prework
         <br />
         Email: <span className='font-semibold'>
              ycyclasscom@gmail.com.

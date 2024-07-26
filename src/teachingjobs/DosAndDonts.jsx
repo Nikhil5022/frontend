@@ -12,7 +12,7 @@ export default function DosAndDonts() {
       >
         <div className="w-1/3 text-center border-r border-black p-2 text-sm font-semibold"></div>
         <div className="w-1/3 text-center border-r border-black p-2 text-sm font-semibold text-orange-400 flex flex-col md:flex-row justify-center items-center">
-          <div>LearnDuke Platform</div>
+          <div>Prework Platform</div>
           <span
             className="py-0.5 px-1 rounded-lg text-white ml-0 md:ml-3"
             style={{

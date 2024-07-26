@@ -100,7 +100,7 @@ export default function Teachingjobs() {
               className="text-lg leading-loose tracking-wider ml-3"
               style={{ color: "#404040" }}
             >
-              Welcome to LearnDuke, the
+              Welcome to Prework, the
               <span className="font-semibold"> best site</span> for Indians 🇮🇳
               seeking Online and offline work! Browse
               <span className="font-semibold"> thousands</span> of

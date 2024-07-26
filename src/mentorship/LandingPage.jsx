@@ -122,7 +122,7 @@ fetchData();
         </h1>
         <p className="px-10 lg:text-xl mx-4 lg:mx-20 py-5 text-center">
           If this is what your heart responded, you have a super power.
-          <br /> <span className="font-semibold">LearnDuke</span> platform will
+          <br /> <span className="font-semibold">Prework</span> platform will
           do every bit to help you realise and exercise this power.
         </p>
         <div className="mt-4 flex items-center justify-center">
@@ -150,7 +150,7 @@ fetchData();
       <p className="w-11/12 border-orange-300 border-y-2 mt-10 "></p>
       <div className="my-10 flex items-center justify-center flex-col w-full">
         <p className="px-4 text-center font-semibold text-3xl mb-10">
-          What makes a LearnDuke mentor A LearnDuke Mentor?
+          What makes a Prework mentor A Prework Mentor?
         </p>
         {qualities.map((quality, index) => (
           <div
@@ -212,7 +212,7 @@ fetchData();
       <p className="w-11/12 border-orange-300 border-y-2 mt-10 "></p>
       <div className=" flex mt-4 min-h-96 relative item-center flex-col">
         <h1 className="text-2xl backdrop-blur-3xl w-full mb-4 font-semibold text-center mx-auto py-2">
-          Mentorship on LearnDuke is rewarding in more ways than one.
+          Mentorship on Prework is rewarding in more ways than one.
         </h1>
         <img
           src={together}

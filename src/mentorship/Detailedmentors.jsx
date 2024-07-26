@@ -430,7 +430,7 @@ function Detailedmentors() {
                 <button
                   className="bg-green-400  px-3 py-2 rounded-lg font-semibold text-white  justify-center space-x-3 flex items-center"
                   onClick={() => user ?
-                    window.open(`https://wa.me/${mentor.whatsappNumber}?text=${"Hello Mentor! I saw your profile on Learnduke. Can I take a free class  for "}`, 'blank') : setShowModal(true)
+                    window.open(`https://wa.me/${mentor.whatsappNumber}?text=${"Hello Mentor! I saw your profile on Prework. Can I take a free class  for "}`, 'blank') : setShowModal(true)
                   }
                 >
                   <FaWhatsapp /> <span>WhatsApp Mentor</span>

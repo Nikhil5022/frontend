@@ -175,7 +175,7 @@ function BecomeMentor() {
       id: 1,
       name: "Domain",
       suggestion:
-        "LearnDuke offers you the opportunity to teach and share your knowledge in over 100 Domains. Use the search engine to select your main Domain and let the adventure begin :)",
+        "Prework offers you the opportunity to teach and share your knowledge in over 100 Domains. Use the search engine to select your main Domain and let the adventure begin :)",
       children: (
         <Domain
           key={1}

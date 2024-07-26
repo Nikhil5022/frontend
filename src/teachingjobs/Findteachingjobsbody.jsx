@@ -125,7 +125,7 @@ export default function ResponsiveComponent() {
           <img src={numbers2} alt="" className="w-full mt-5 mb-5" />
           <div className="text-lg font-semibold m-3">
             <span style={{ backgroundColor: "#FDFDAD" }}>
-              Here are the top reasons to join LearnDuke Online and Offline jobs
+              Here are the top reasons to join Prework Online and Offline jobs
               today.
             </span>
           </div>
