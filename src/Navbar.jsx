@@ -153,10 +153,10 @@ export default function Navbar() {
           <div
             className="cursor-pointer p-1 hover:underline"
             onClick={() => {
-              navigate("/mentorship");
+              navigate("/find-mentor");
             }}
           >
-            Mentorship
+            Find Mentor
           </div>
           {/* <div
             className="cursor-pointer p-1 hover:underline"
@@ -263,13 +263,13 @@ export default function Navbar() {
                     <div
                       className="text-base font-semibold  mb-4 cursor-pointer p-1 flex items-center space-x-2"
                       onClick={() => {
-                        navigate("/mentorship");
+                        navigate("/find-mentor");
                         setShowMenu(false);
                       }}
                     >
                       <SiCodementor />
 
-                    <span>  Mentorship</span>
+                    <span>  Find Mentor</span>
                     </div>
                     {/* <div
                     className="text-base font-semibold  mb-4 cursor-pointer p-1"
@@ -352,11 +352,11 @@ export default function Navbar() {
                       className="text-base font-semibold mb-4 cursor-pointer p-1 flex items-center space-x-2"
                       onClick={() => {
                         setShowMenu(false);
-                        navigate("/mentorship");
+                        navigate("/find-mentor");
                       }}
                     >
                       <SiCodementor />
-                      <span>Mentorship</span>
+                      <span>Find Mentor</span>
                     </div>
                     {/* <div
                       className="text-base font-semibold mb-4 cursor-pointer p-1"

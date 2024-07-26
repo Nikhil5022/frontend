@@ -416,7 +416,7 @@ function BecomeMentor() {
   useEffect(() => {
     const userPresent = JSON.parse(localStorage.getItem("user"));
     if (!userPresent) {
-      navigate("/mentorship");
+      navigate("/find-mentor");
     }
     setUser(userPresent);
   }, []);

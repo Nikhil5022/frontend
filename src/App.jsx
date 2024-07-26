@@ -80,7 +80,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Teachingjobs />} />
         <Route path="/jobs" element={<Body />} />
-        <Route path="/mentorship" element={<LandingPage />} />
+        <Route path="/find-mentor" element={<LandingPage />} />
         <Route path="/findteachingjobs" element={<Findteachingjobs />} />
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/reviews" element={<Reviews />} />

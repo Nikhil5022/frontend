@@ -21,7 +21,7 @@ function MentorPayment() {
   useEffect(() => {
     const userPresent = JSON.parse(localStorage.getItem("user"));
     if (!userPresent) {
-      navigate("/mentorship");
+      navigate("/find-mentor");
     }
 
     axios
@@ -30,7 +30,7 @@ function MentorPayment() {
         if (response.data === "") {
           localStorage.removeItem("user");
           window.location.reload();
-          navigate("/mentorship");
+          navigate("/find-mentor");
         }
 
         setUserData(response.data);
@@ -44,7 +44,7 @@ function MentorPayment() {
       setLoading(true);
       let data = await location.state?.mentorData;
       if (!data) {
-        navigate("/mentorship");
+        navigate("/find-mentor");
       }
       let newData = await location.state?.newData;
       setMentorData(data);
@@ -164,7 +164,7 @@ function MentorPayment() {
   const handleNavigate = () => {
     setUpdatedModal(false);
     if (mentorData.isPremium == true) {
-      navigate("/mentorship");
+      navigate("/find-mentor");
     }
   };
 
