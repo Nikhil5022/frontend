@@ -37,7 +37,6 @@ export default function Footer() {
             >
               Customer Reviews
             </div>
-            <div className="font-normal hover:underline my-3">Our Story</div>
             <div className="font-normal hover:underline my-3">
               <Link to="https://learnduke.com/live">Learnduke upskill program</Link>
             </div>
