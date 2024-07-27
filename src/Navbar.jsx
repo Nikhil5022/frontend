@@ -12,6 +12,8 @@ import { MdRepeatOne } from "react-icons/md";
 import { SiCodementor } from "react-icons/si";
 import { MdOutlineInterpreterMode } from "react-icons/md";
 import { FaBuilding } from "react-icons/fa";
+import { FaBriefcase } from "react-icons/fa";
+
 
 
 export default function Navbar() {
@@ -257,7 +259,7 @@ export default function Navbar() {
                         setShowMenu(false);
                       }}
                     >
-                     <FaInternetExplorer />
+                     <FaBriefcase />
                      <span>Explore Jobs</span>
                     </div>
                     <div
@@ -345,7 +347,7 @@ export default function Navbar() {
                         setShowMenu(false);
                       }}
                     >
-                      <FaInternetExplorer />
+                  <FaBriefcase />
                      <span> Explore Jobs</span>
                     </div>
                     <div
