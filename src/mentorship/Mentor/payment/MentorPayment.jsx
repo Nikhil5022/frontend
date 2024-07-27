@@ -123,7 +123,7 @@ function MentorPayment() {
     },
     {
       name: "Advance",
-      price: 199, // in INR
+      price: 149, // in INR
       benefits: [
         "100 Days Validity",
         "Student can connect directly",
@@ -135,7 +135,7 @@ function MentorPayment() {
     },
     {
       name: "Premium",
-      price: 499,
+      price: 399,
       benefits: [
         "Lifetime membership for first 3000 members",
         "365 Days Validity",
