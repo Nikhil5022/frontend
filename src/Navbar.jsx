@@ -13,6 +13,7 @@ import { SiCodementor } from "react-icons/si";
 import { MdOutlineInterpreterMode } from "react-icons/md";
 import { FaBuilding } from "react-icons/fa";
 import { FaBriefcase } from "react-icons/fa";
+import { FaUserFriends } from "react-icons/fa";
 
 
 
@@ -291,7 +292,8 @@ export default function Navbar() {
                         setShowMenu(false);
                       }}
                     >
-                      <MdRepeatOne className="text-xl"/>
+                     <FaUserFriends 
+                     className="text-xl"/>
 
                      <span> 1:1 Mentorship</span>
                       <span className="absolute top-0 -right-6 text-xs text-orange-500 glow-animation">
@@ -379,7 +381,8 @@ export default function Navbar() {
                         setShowMenu(false);
                       }}
                     >
-                      <MdRepeatOne className="text-xl" />
+                      <FaUserFriends 
+                      className="text-xl" />
                       <span>1:1 Mentorship</span>
                       <span className="absolute top-0 -right-6 text-xs text-orange-500 glow-animation">
                         PRO
