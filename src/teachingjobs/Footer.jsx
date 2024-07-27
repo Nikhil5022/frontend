@@ -41,7 +41,7 @@ export default function Footer() {
               <Link to="https://learnduke.com/live">Learnduke upskill program</Link>
             </div>
             <div className="font-normal hover:underline my-3">
-              <Link to="/mentorship">Mentorship</Link>
+              <Link to="/find-mentor">Find Mentor</Link>
             </div>
           </div>
           <div className="w-full md:w-1/2">

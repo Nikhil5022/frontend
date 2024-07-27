@@ -152,7 +152,7 @@ function MentorPayment() {
   const handlePayment = (name) => {
     const isMentor = true;
     if(userData){
-      window.location.href = `${import.meta.env.VITE_SERVER_URL}/pay/${name}/${userData.email}/${isMentor}`;
+      window.location.href = `${import.meta.env.VITE_SERVER_DEPLOY_URL}/pay/${name}/${userData.email}/${isMentor}`;
     }
   };
 
