@@ -31,7 +31,9 @@ export default function Admin() {
   const [filterClicked, setFilterClicked] = useState(false);
   const [mentors, setMentors] = useState([]);
   const [mentorChange, setMentorChange] = useState(null);
-  const [mentorPaymentModal,setMentorPaymentModal] = useState(false);
+  const [mentorPaymentModal, setMentorPaymentModal] = useState(false);
+  const [jobPaymentModal, setJobPaymentModal] = useState(false);
+  const [currUserId, setCurrUserId] = useState(null);
   const handlePremiumForDownload = () => {
     setShowPremiumForDownload(!showPremiumForDownload);
 
@@ -76,7 +78,7 @@ export default function Admin() {
       axios
         .get(
           // ${import.meta.env.VITE_SERVER_DEPLOY_URL}
-          `http://localhost:3000/getMentorsAdmin`
+          `${import.meta.env.VITE_SERVER_DEPLOY_URL}/getMentorsAdmin`
         )
         .then((res) => {
           setMentors(res.data);
@@ -85,7 +87,7 @@ export default function Admin() {
     }
   }, [isLogged]);
 
-  const handleToggle = async (userId) => {
+  const handleUpdateStatusJobs = async (userId) => {
     try {
       const user = users.find((user) => user._id === userId);
       if (!user) return;
@@ -278,8 +280,34 @@ export default function Admin() {
   const isMobile = window.innerWidth < 480;
 
   const updatePaymentStatus = async (plan) => {
-    mentorChange && await axios.get(`http://localhost:3000/updateMentorViaAdmin?id=${mentorChange}&plan=${plan}`)
-  }
+    mentorChange &&
+      (await axios.get(
+       `${import.meta.env.VITE_SERVER_DEPLOY_URL}/updateMentorViaAdmin?id=${mentorChange}&plan=${plan}`
+      ));
+  };
+
+  const updateJobPaymentStatus = async (plan) => {
+    currUserId &&
+      (await axios
+        .get(
+          `${import.meta.env.VITE_SERVER_DEPLOY_URL}/updateUserViaAdmin?id=${currUserId}&plan=${plan}`
+        )
+        .then((res) => {
+          setUsers(
+            users.map((user) => {
+              if (user._id === currUserId) {
+                if (user.plans.includes(plan)) {
+                  return user;
+                } else {
+                  user.plans.push(plan);
+                }
+              }
+              return user;
+            })
+          );
+        }));
+    console.log(plan);
+  };
 
   if (isMobile) {
     return (
@@ -501,12 +529,11 @@ export default function Admin() {
             </button>
           </div>
           <div className="overflow-x-auto">
-          {
-            view === "mentor" && (
+            {view === "mentor" && (
               //show mentors
               <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
                 <thead className="bg-gray-100">
-                <tr>
+                  <tr>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider"
@@ -540,40 +567,43 @@ export default function Admin() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {mentors.map((mentor) => mentor && (
-                    <tr key={mentor._id}>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {mentor.name}
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        {mentor.email}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {mentor.phoneNumber}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                          <button className="text-gray-700 font-medium text-sm md:text-base border border-gray-400 p-3" 
-                          onClick={() => {
-                              setMentorChange(mentor._id)
-                              setMentorPaymentModal(true) 
-                            }
-                          }>
-                            Update Status
-                          </button>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <ul>
-                          {mentor.plans.map((plan, index) => (
-                            <li key={index}>{plan}</li>
-                          ))}
-                        </ul>
-                      </td>
-                    </tr>
-                  ))}
+                  {mentors.map(
+                    (mentor) =>
+                      mentor && (
+                        <tr key={mentor._id}>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {mentor.name}
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            {mentor.email}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {mentor.phoneNumber}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <button
+                              className="text-gray-700 font-medium text-sm md:text-base border border-gray-400 p-3"
+                              onClick={() => {
+                                setMentorChange(mentor._id);
+                                setMentorPaymentModal(true);
+                              }}
+                            >
+                              Update Status
+                            </button>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <ul>
+                              {mentor.plans.map((plan, index) => (
+                                <li key={index}>{plan}</li>
+                              ))}
+                            </ul>
+                          </td>
+                        </tr>
+                      )
+                  )}
                 </tbody>
               </table>
-            )
-          }
+            )}
             {view === "users" && (
               <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
                 <thead className="bg-gray-50">
@@ -623,32 +653,15 @@ export default function Admin() {
                         {user.phoneNumber}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <label
-                          htmlFor={`toggle-${user._id}`}
-                          className="flex items-center cursor-pointer"
+                        <button
+                          className="px-4 py-2 border border-gray-400 text-gray-600"
+                          onClick={() => {
+                            setJobPaymentModal(true);
+                            setCurrUserId(user._id);
+                          }}
                         >
-                          <div className="relative">
-                            <input
-                              type="checkbox"
-                              id={`toggle-${user._id}`}
-                              name={`toggle-${user._id}`}
-                              checked={user.isPremium}
-                              onChange={() => handleToggle(user._id)}
-                              className="sr-only"
-                            />
-                            <div className="block bg-gray-600 w-14 h-8 md:w-16 md:h-10 rounded-full"></div>
-                            <div
-                              className={`dot absolute left-1 top-1 md:left-1 md:top-1.5 bg-white w-6 h-6 md:w-7 md:h-7 rounded-full transition ${
-                                user.isPremium
-                                  ? "translate-x-full bg-green-400"
-                                  : "bg-gray-600"
-                              }`}
-                            ></div>
-                          </div>
-                          <div className="ml-3 text-gray-700 font-medium text-sm md:text-base">
-                            Premium
-                          </div>
-                        </label>
+                          Update Status
+                        </button>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <ul>
@@ -662,7 +675,7 @@ export default function Admin() {
                 </tbody>
               </table>
             )}
-              { view === "jobs" && (
+            {view === "jobs" && (
               <div>
                 <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
                   <thead className="bg-gray-50">
@@ -981,24 +994,88 @@ export default function Admin() {
         </Modal>
       )}
       {
-        <Modal isOpen={mentorPaymentModal} onClose={() => setMentorPaymentModal(false)}>
+        <Modal
+          isOpen={mentorPaymentModal}
+          onClose={() => setMentorPaymentModal(false)}
+        >
           <div className="p-4 flex flex-col items-center justify-center">
             <h1 className="text-xl font-semibold">Update Plan To</h1>
             <div>
-              <button className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
-               onClick={() => {
-                updatePaymentStatus("Basic")
-                setMentorPaymentModal(false)
-                }}>Basic</button>
-              <button className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
-               onClick={() => 
-                {updatePaymentStatus("Advance") 
-                setMentorPaymentModal(false)}
-              }>Advance</button>
-              <button  className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
-               onClick={() => 
-                {updatePaymentStatus("Premium") 
-                setMentorPaymentModal(false)}}>Premium</button>
+              <button
+                className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
+                onClick={() => {
+                  updatePaymentStatus("Basic");
+                  setMentorPaymentModal(false);
+                }}
+              >
+                Basic
+              </button>
+              <button
+                className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
+                onClick={() => {
+                  updatePaymentStatus("Advance");
+                  setMentorPaymentModal(false);
+                }}
+              >
+                Advance
+              </button>
+              <button
+                className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
+                onClick={() => {
+                  updatePaymentStatus("Premium");
+                  setMentorPaymentModal(false);
+                }}
+              >
+                Premium
+              </button>
+            </div>
+          </div>
+        </Modal>
+      }
+      {
+        <Modal
+          isOpen={jobPaymentModal}
+          onClose={() => setJobPaymentModal(false)}
+        >
+          <div className="p-4 flex flex-col items-center justify-center">
+            <h1 className="text-xl font-semibold">Update Plan To</h1>
+            <div>
+              <button
+                className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
+                onClick={() => {
+                  updateJobPaymentStatus("Basic");
+                  setJobPaymentModal(false);
+                }}
+              >
+                Basic
+              </button>
+              <button
+                className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
+                onClick={() => {
+                  updateJobPaymentStatus("Advance");
+                  setJobPaymentModal(false);
+                }}
+              >
+                Advance
+              </button>
+              <button
+                className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
+                onClick={() => {
+                  updateJobPaymentStatus("Premium");
+                  setJobPaymentModal(false);
+                }}
+              >
+                Premium
+              </button>
+              <button
+                className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
+                onClick={() => {
+                  updateJobPaymentStatus("Teacher Pro");
+                  setJobPaymentModal(false);
+                }}
+              >
+                Teacher Pro
+              </button>
             </div>
           </div>
         </Modal>
