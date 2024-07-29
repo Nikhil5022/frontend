@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 import image from "../assets/learnDuke.png";
+import Modal from "../Modal";
 
 export default function Subscription() {
   const [userData, setUserData] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [manualPayment, setManualPayment] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top when the component mounts
@@ -87,8 +89,10 @@ export default function Subscription() {
   const handlePayment =  (name) => {
     const isMentor=false;
     if(userData){
-      window.location.href = `${import.meta.env.VITE_SERVER_DEPLOY_URL}/pay/${name}/${userData.email}/${isMentor}`;
-      
+      // window.location.href = `${import.meta.env.VITE_SERVER_DEPLOY_URL}/pay/${name}/${userData.email}/${isMentor}`;
+
+      //manual payment
+      window.location.href = "https://rzp.io/l/lU7RX6gdk"
     }
 };
 
@@ -168,6 +172,16 @@ export default function Subscription() {
           </div>
         </div>
       )}
+      <Modal isOpen={manualPayment} onClose={() => setManualPayment(false)}>
+          <div className="flex items-center justify-center sm:px-4 text-center flex-col">
+            <h1 className="text-2xl mb-3 border-b-2 border-gray-700 font-bold">NOTE</h1>
+            <p className="text-xl px-5 text-gray-800">
+            Upon completion of payment our team will verify its
+            status and your profile will be updated
+            within <b>24 hours</b>.
+            </p>
+          </div>
+        </Modal>
     </div>
   ) : (
     <div

@@ -29,6 +29,9 @@ export default function Admin() {
   const [showPremiumForDownload, setShowPremiumForDownload] = useState(false);
   const [originalFilterData, setOriginalFilterData] = useState([]);
   const [filterClicked, setFilterClicked] = useState(false);
+  const [mentors, setMentors] = useState([]);
+  const [mentorChange, setMentorChange] = useState(null);
+  const [mentorPaymentModal,setMentorPaymentModal] = useState(false);
   const handlePremiumForDownload = () => {
     setShowPremiumForDownload(!showPremiumForDownload);
 
@@ -69,6 +72,16 @@ export default function Admin() {
         .catch((error) => {
           console.error("Error fetching job data:", error);
         });
+
+      axios
+        .get(
+          // ${import.meta.env.VITE_SERVER_DEPLOY_URL}
+          `http://localhost:3000/getMentorsAdmin`
+        )
+        .then((res) => {
+          setMentors(res.data);
+          console.log(res.data);
+        });
     }
   }, [isLogged]);
 
@@ -80,9 +93,12 @@ export default function Admin() {
       const updatedIsPremium = !user.isPremium;
 
       await axios
-        .post(`${import.meta.env.VITE_SERVER_DEPLOY_URL}/updateUser/${user.email}`, {
-          isPremium: updatedIsPremium,
-        })
+        .post(
+          `${import.meta.env.VITE_SERVER_DEPLOY_URL}/updateUser/${user.email}`,
+          {
+            isPremium: updatedIsPremium,
+          }
+        )
         .then((response) => {
           setUserDataUpdateModal(true);
         });
@@ -106,9 +122,12 @@ export default function Admin() {
   };
 
   const handleLogin = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     axios
-      .post(`${import.meta.env.VITE_SERVER_DEPLOY_URL}/login`, { email, password })
+      .post(`${import.meta.env.VITE_SERVER_DEPLOY_URL}/login`, {
+        email,
+        password,
+      })
       .then((response) => {
         if (response.data.token) {
           localStorage.setItem("token", response.data.token);
@@ -161,7 +180,9 @@ export default function Admin() {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_DEPLOY_URL}/approveJob/${selectedJob._id}` // Use template literal for clarity
+        `${import.meta.env.VITE_SERVER_DEPLOY_URL}/approveJob/${
+          selectedJob._id
+        }` // Use template literal for clarity
       );
 
       emailjs
@@ -200,9 +221,10 @@ export default function Admin() {
   const handleReject = () => {
     // Logic for rejecting the job
     axios
-      .post(`${import.meta.env.VITE_SERVER_DEPLOY_URL}/rejectJob/` + selectedJob._id)
+      .post(
+        `${import.meta.env.VITE_SERVER_DEPLOY_URL}/rejectJob/` + selectedJob._id
+      )
       .then((response) => {
-
         setJobs((prevJobs) =>
           prevJobs.map((j) =>
             j._id === selectedJob._id
@@ -254,6 +276,10 @@ export default function Admin() {
   };
 
   const isMobile = window.innerWidth < 480;
+
+  const updatePaymentStatus = async (plan) => {
+    mentorChange && await axios.get(`http://localhost:3000/updateMentorViaAdmin?id=${mentorChange}&plan=${plan}`)
+  }
 
   if (isMobile) {
     return (
@@ -461,6 +487,12 @@ export default function Admin() {
             {/* download */}
             <button
               className="bg-blue-500 text-white py-2 px-4 rounded ml-2 whitespace-nowrap"
+              onClick={() => setView("mentor")}
+            >
+              Show Mentors
+            </button>
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded ml-2 whitespace-nowrap"
               onClick={() => {
                 setModal(true);
               }}
@@ -469,7 +501,80 @@ export default function Admin() {
             </button>
           </div>
           <div className="overflow-x-auto">
-            {view === "users" ? (
+          {
+            view === "mentor" && (
+              //show mentors
+              <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Email
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Phone Number
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Update Premium
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Plans
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {mentors.map((mentor) => mentor && (
+                    <tr key={mentor._id}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {mentor.name}
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        {mentor.email}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {mentor.phoneNumber}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                          <button className="text-gray-700 font-medium text-sm md:text-base border border-gray-400 p-3" 
+                          onClick={() => {
+                              setMentorChange(mentor._id)
+                              setMentorPaymentModal(true) 
+                            }
+                          }>
+                            Update Status
+                          </button>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <ul>
+                          {mentor.plans.map((plan, index) => (
+                            <li key={index}>{plan}</li>
+                          ))}
+                        </ul>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )
+          }
+            {view === "users" && (
               <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
@@ -556,7 +661,8 @@ export default function Admin() {
                   ))}
                 </tbody>
               </table>
-            ) : (
+            )}
+              { view === "jobs" && (
               <div>
                 <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
                   <thead className="bg-gray-50">
@@ -622,10 +728,11 @@ export default function Admin() {
                               onClick={() =>
                                 axios
                                   .post(
-                                    `${import.meta.env.VITE_SERVER_DEPLOY_URL}/undoReview/${job._id}`
+                                    `${
+                                      import.meta.env.VITE_SERVER_DEPLOY_URL
+                                    }/undoReview/${job._id}`
                                   )
                                   .then((response) => {
-                                   
                                     setJobs((prevJobs) =>
                                       prevJobs.map((j) =>
                                         j._id === job._id
@@ -653,10 +760,11 @@ export default function Admin() {
                               onClick={() =>
                                 axios
                                   .post(
-                                    `${import.meta.env.VITE_SERVER_DEPLOY_URL}/undoReject/${job._id}`
+                                    `${
+                                      import.meta.env.VITE_SERVER_DEPLOY_URL
+                                    }/undoReject/${job._id}`
                                   )
                                   .then((response) => {
-                                   
                                     setJobs((prevJobs) =>
                                       prevJobs.map((j) =>
                                         j._id === job._id
@@ -845,7 +953,9 @@ export default function Admin() {
               onClick={() => {
                 axios
                   .delete(
-                    `${import.meta.env.VITE_SERVER_DEPLOY_URL}/deleteJob/${selectedJob._id}`
+                    `${import.meta.env.VITE_SERVER_DEPLOY_URL}/deleteJob/${
+                      selectedJob._id
+                    }`
                   )
                   .then((response) => {
                     setJobs((prevJobs) =>
@@ -870,6 +980,29 @@ export default function Admin() {
           </div>
         </Modal>
       )}
+      {
+        <Modal isOpen={mentorPaymentModal} onClose={() => setMentorPaymentModal(false)}>
+          <div className="p-4 flex flex-col items-center justify-center">
+            <h1 className="text-xl font-semibold">Update Plan To</h1>
+            <div>
+              <button className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
+               onClick={() => {
+                updatePaymentStatus("Basic")
+                setMentorPaymentModal(false)
+                }}>Basic</button>
+              <button className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
+               onClick={() => 
+                {updatePaymentStatus("Advance") 
+                setMentorPaymentModal(false)}
+              }>Advance</button>
+              <button  className="p-3 border m-2 font-semibold text-green-600 border-green-600 text-lg px-5"
+               onClick={() => 
+                {updatePaymentStatus("Premium") 
+                setMentorPaymentModal(false)}}>Premium</button>
+            </div>
+          </div>
+        </Modal>
+      }
     </div>
   );
 }
